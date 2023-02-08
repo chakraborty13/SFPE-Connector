@@ -25,7 +25,34 @@ public class DevLoginAsynchronousEventProcessing extends DevLoginApp {
     }
 
     @Override
-    public Consumer<Map<String, Object>> getConsumer() {
-        return event -> workerThreadPool.submit(() -> System.out.println(String.format("Received:\n%s, \nEvent processed by threadName:%s, threadId: %s", JSON.toString(event), Thread.currentThread().getName(), Thread.currentThread().getId())));
-    }
+public Consumer<Map<String, Object>> getConsumer() {
+    // System.out.println("This is where we call okta methods to set partner flag");
+    return event -> workerThreadPool.submit(
+        () -> {
+          System.out.println(String.format("ReceivedXXXX:\n%s, \nEvent processed by threadName:%s, threadId: %s",
+              JSON.toString(event), Thread.currentThread().getName(), Thread.currentThread().getId()));
+          /**
+           * start okta process here - SATYA
+           */
+
+          String payload = JSON.toString(event);
+          System.out.println("Okta processing here \n" + payload);
+/**
+          sdk = new OktaSdk(payload);
+          System.out.println(sdk.getEmail("00u7s01kmxux9JZsM5d7"));
+          System.out.println("Email from the message paylod is " + sdk.getPayloadEmail(payload));
+          System.out.println("First Name from the message paylod is " + sdk.getPayloadFirstname(payload));
+          System.out.println("Last Name from the message paylod is " + sdk.getPayloadLastname(payload));
+          System.out.println("Division Id from the message paylod is " + sdk.getPayloadDivisionId(payload));
+
+          // public User updateUser(String email, String firstName, String lastName,
+          // String divisionId) {
+
+          User updatedUser = sdk.updateUser(sdk.getPayloadEmail(payload),
+              sdk.getPayloadFirstname(payload),
+              sdk.getPayloadLastname(payload),
+              sdk.getPayloadDivisionId(payload));
+**/
+        });
+  }
 }
