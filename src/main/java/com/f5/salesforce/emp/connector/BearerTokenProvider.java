@@ -1,9 +1,9 @@
-package com.salesforce.emp.connector.example;
-
-import com.salesforce.emp.connector.BayeuxParameters;
+package com.f5.salesforce.emp.connector;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+import com.f5.salesforce.emp.bayeux.BayeuxParameters;
 
 /**
  * Container for BayeuxParameters and the bearerToken.

@@ -1,4 +1,4 @@
-package com.salesforce.emp.connector.example;
+package com.f5.salesforce.emp.connector;
 
 import org.eclipse.jetty.util.ajax.JSON;
 
@@ -13,14 +13,14 @@ import java.util.function.Consumer;
  * @author sivananda
  * @since API v37.0
  */
-public class DevLoginAsynchronousEventProcessingExample extends DevLoginExample {
+public class DevLoginAsynchronousEventProcessing extends DevLoginApp {
 
     // More than one thread can be used in the thread pool which leads to parallel processing of events which may be acceptable by the application
     // The main purpose of asynchronous event processing is to make sure that client is able to perform /meta/connect requests which keeps the session alive on the server side
     private final ExecutorService workerThreadPool = Executors.newFixedThreadPool(1);
 
     public static void main(String[] argv) throws Throwable {
-        DevLoginAsynchronousEventProcessingExample devLoginAsynchronousEventProcessingExample = new DevLoginAsynchronousEventProcessingExample();
+        DevLoginAsynchronousEventProcessing devLoginAsynchronousEventProcessingExample = new DevLoginAsynchronousEventProcessing();
         devLoginAsynchronousEventProcessingExample.processEvents(argv);
     }
 

@@ -4,9 +4,9 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.TXT file in the repo root  or https://opensource.org/licenses/BSD-3-Clause
  */
-package com.salesforce.emp.connector.example;
+package com.f5.salesforce.emp.connector;
 
-import static com.salesforce.emp.connector.LoginHelper.login;
+import static com.f5.salesforce.emp.bayeux.LoginHelper.login;
 
 import java.net.URL;
 import java.util.Map;
@@ -14,10 +14,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import org.eclipse.jetty.util.ajax.JSON;
 
-import com.salesforce.emp.connector.BayeuxParameters;
-import com.salesforce.emp.connector.EmpConnector;
-import com.salesforce.emp.connector.LoginHelper;
-import com.salesforce.emp.connector.TopicSubscription;
+import com.f5.salesforce.emp.bayeux.BayeuxParameters;
+import com.f5.salesforce.emp.bayeux.EmpConnector;
+import com.f5.salesforce.emp.bayeux.LoginHelper;
+import com.f5.salesforce.emp.bayeux.TopicSubscription;
 
 /**
  * An example of using the EMP connector using login credentials
@@ -25,7 +25,7 @@ import com.salesforce.emp.connector.TopicSubscription;
  * @author hal.hildebrand
  * @since API v37.0
  */
-public class LoginExample {
+public class LoginApp {
     public static void main(String[] argv) throws Exception {
         if (argv.length < 3 || argv.length > 4) {
             System.err.println("Usage: LoginExample username password topic [replayFrom]");

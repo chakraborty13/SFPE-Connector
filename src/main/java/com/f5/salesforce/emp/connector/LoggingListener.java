@@ -1,4 +1,4 @@
-package com.salesforce.emp.connector.example;
+package com.f5.salesforce.emp.connector;
 
 import org.cometd.bayeux.Message;
 import org.cometd.bayeux.client.ClientSessionChannel;

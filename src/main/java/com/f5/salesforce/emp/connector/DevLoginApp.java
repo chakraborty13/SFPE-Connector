@@ -4,12 +4,7 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.TXT file in the repo root  or https://opensource.org/licenses/BSD-3-Clause
  */
-package com.salesforce.emp.connector.example;
-
-import com.salesforce.emp.connector.BayeuxParameters;
-import com.salesforce.emp.connector.EmpConnector;
-import com.salesforce.emp.connector.LoginHelper;
-import com.salesforce.emp.connector.TopicSubscription;
+package com.f5.salesforce.emp.connector;
 
 import java.net.URL;
 import java.util.Map;
@@ -19,6 +14,11 @@ import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 import org.eclipse.jetty.util.ajax.JSON;
 
+import com.f5.salesforce.emp.bayeux.BayeuxParameters;
+import com.f5.salesforce.emp.bayeux.EmpConnector;
+import com.f5.salesforce.emp.bayeux.LoginHelper;
+import com.f5.salesforce.emp.bayeux.TopicSubscription;
+
 import static org.cometd.bayeux.Channel.*;
 
 /**
@@ -27,7 +27,7 @@ import static org.cometd.bayeux.Channel.*;
  * @author hal.hildebrand
  * @since API v37.0
  */
-public abstract class DevLoginExample {
+public abstract class DevLoginApp {
 
     public void processEvents(String[] argv) throws Throwable {
         if (argv.length < 4 || argv.length > 5) {
