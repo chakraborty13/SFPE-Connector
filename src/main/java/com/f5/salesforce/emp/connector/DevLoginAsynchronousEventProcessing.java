@@ -13,12 +13,6 @@ import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * An example of using the EMP connector which processes events asynchronously
- *
- * @author sivananda
- * @since API v37.0
- */
 public class DevLoginAsynchronousEventProcessing extends DevLoginApp {
 
 	private final Logger logger = LoggerFactory.getLogger(DevLoginAsynchronousEventProcessing.class);
@@ -39,18 +33,16 @@ public class DevLoginAsynchronousEventProcessing extends DevLoginApp {
 	public Consumer<Map<String, Object>> getConsumer() {
 
 		return event -> workerThreadPool.submit(() -> {
-			System.out.println(String.format("Received:\n%s, \nEvent processed by threadName:%s, threadId: %s",
+			logger.info(String.format("Received:\n%s, \nEvent processed by threadName:%s, threadId: %s",
 					JSON.toString(event), Thread.currentThread().getName(), Thread.currentThread().getId()));
-			logger.info(
-					"L  O  G  G  E  R      T  E  S  T  *********************************************************************************************************");
 			String payload = JSON.toString(event);
 			/**
-			 * System.out.println(sdk.getEmail("00u7s01kmxux9JZsM5d7"));
-			 * System.out.println("Email from the message paylod is " +
-			 * sdk.getPayloadEmail(payload)); System.out.println("First Name from the
+			 * logger.info(sdk.getEmail("00u7s01kmxux9JZsM5d7"));
+			 * logger.info("Email from the message paylod is " +
+			 * sdk.getPayloadEmail(payload)); logger.info("First Name from the
 			 * message paylod is " + sdk.getPayloadFirstname(payload));
-			 * System.out.println("Last Name from the message paylod is " +
-			 * sdk.getPayloadLastname(payload)); System.out.println("Division Id from the
+			 * logger.info("Last Name from the message paylod is " +
+			 * sdk.getPayloadLastname(payload)); logger.info("Division Id from the
 			 * message paylod is " + sdk.getPayloadDivisionId(payload));
 			 */
 			OktaSdk sdk = new OktaSdk(payload);
@@ -60,7 +52,7 @@ public class DevLoginAsynchronousEventProcessing extends DevLoginApp {
 						sdk.getPayloadLastname(payload), sdk.getPayloadDivisionId(payload));
 				logger.info("Partner Flag Update successfull for %s", updatedUser.getProfile().getEmail());
 			} catch (Exception e) {
-				logger.error("Erron updating okta for %s \n %s",sdk.getPayloadEmail(payload),e);
+				logger.error("Erron updating okta for %s \n %s", sdk.getPayloadEmail(payload), e);
 			}
 
 		});

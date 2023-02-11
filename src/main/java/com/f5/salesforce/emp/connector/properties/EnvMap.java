@@ -16,7 +16,7 @@ public class EnvMap {
     String value = null;
     Map<String, String> env = System.getenv();
     for (Map.Entry<String, String> entry : env.entrySet()) {
-      //System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+      //logger.info("Key = " + entry.getKey() + ", Value = " + entry.getValue());
       if (entry.getKey().equals(key)) {
         value = entry.getValue();
       }

@@ -6,7 +6,13 @@ import org.cometd.bayeux.client.ClientSessionChannel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class LoggingListener implements ClientSessionChannel.MessageListener {
+	
+	private final Logger logger = LoggerFactory.getLogger(LoggingListener.class);
+	
 
     private boolean logSuccess;
     private boolean logFailure;
@@ -24,19 +30,19 @@ public class LoggingListener implements ClientSessionChannel.MessageListener {
     @Override
     public void onMessage(ClientSessionChannel clientSessionChannel, Message message) {
         if (logSuccess && message.isSuccessful()) {
-            System.out.println(">>>>");
+            logger.info(">>>>");
             printPrefix();
-            System.out.println("Success:[" + clientSessionChannel.getId() + "]");
-            System.out.println(message);
-            System.out.println("<<<<");
+            logger.info("Success:[" + clientSessionChannel.getId() + "]");
+            logger.info(message.toString());
+            logger.info("<<<<");
         }
 
         if (logFailure && !message.isSuccessful()) {
-            System.out.println(">>>>");
+            logger.info(">>>>");
             printPrefix();
-            System.out.println("Failure:[" + clientSessionChannel.getId() + "]");
-            System.out.println(message);
-            System.out.println("<<<<");
+            logger.info("Failure:[" + clientSessionChannel.getId() + "]");
+            logger.info(message.toString());
+            logger.info("<<<<");
         }
     }
 

@@ -21,6 +21,9 @@ import com.f5.salesforce.emp.bayeux.TopicSubscription;
 
 import static org.cometd.bayeux.Channel.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * An example of using the EMP connector
  *
@@ -28,8 +31,11 @@ import static org.cometd.bayeux.Channel.*;
  * @since API v37.0
  */
 public abstract class DevLoginApp {
+	
+	private final Logger logger = LoggerFactory.getLogger(DevLoginApp.class);
 
     public void processEvents(String[] argv) throws Throwable {
+    	logger.info("LOGGER TEST FROM DebLoginApp");
         if (argv.length < 4 || argv.length > 5) {
             System.err.println("Usage: DevLoginExample url username password topic [replayFrom]");
             System.exit(1);
@@ -75,7 +81,7 @@ public abstract class DevLoginApp {
             throw e.getCause();
         }
 
-        System.out.println(String.format("Subscribed: %s", subscription));
+        logger.info(String.format("Subscribed: %s", subscription));
     }
 
     public abstract Consumer<Map<String, Object>> getConsumer();
