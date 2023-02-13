@@ -2,6 +2,8 @@ package com.f5.salesforce.emp.connector;
 
 import org.eclipse.jetty.util.ajax.JSON;
 
+import com.okta.sdk.client.Client;
+import com.f5.salesforce.emp.connector.okta.OktaClient;
 import com.f5.salesforce.emp.connector.okta.OktaSdk;
 import com.okta.sdk.resource.user.User;
 
@@ -16,6 +18,7 @@ import org.slf4j.LoggerFactory;
 public class DevLoginAsynchronousEventProcessing extends DevLoginApp {
 
 	private final Logger logger = LoggerFactory.getLogger(DevLoginAsynchronousEventProcessing.class);
+	OktaSdk sdk = new OktaSdk(OktaClient.getClient());
 
 	// More than one thread can be used in the thread pool which leads to parallel
 	// processing of events which may be acceptable by the application
@@ -33,26 +36,16 @@ public class DevLoginAsynchronousEventProcessing extends DevLoginApp {
 	public Consumer<Map<String, Object>> getConsumer() {
 
 		return event -> workerThreadPool.submit(() -> {
-			logger.info(String.format("Received:\n%s, \nEvent processed by threadName:%s, threadId: %s",
-					JSON.toString(event), Thread.currentThread().getName(), Thread.currentThread().getId()));
+			logger.info("Received:\n {}, \nEvent processed by threadName: {}, threadId: {}",
+					JSON.toString(event), Thread.currentThread().getName(), Thread.currentThread().getId());
 			String payload = JSON.toString(event);
-			/**
-			 * logger.info(sdk.getEmail("00u7s01kmxux9JZsM5d7"));
-			 * logger.info("Email from the message paylod is " +
-			 * sdk.getPayloadEmail(payload)); logger.info("First Name from the
-			 * message paylod is " + sdk.getPayloadFirstname(payload));
-			 * logger.info("Last Name from the message paylod is " +
-			 * sdk.getPayloadLastname(payload)); logger.info("Division Id from the
-			 * message paylod is " + sdk.getPayloadDivisionId(payload));
-			 */
-			OktaSdk sdk = new OktaSdk(payload);
 
 			try {
 				User updatedUser = sdk.updateUser(sdk.getPayloadEmail(payload), sdk.getPayloadFirstname(payload),
 						sdk.getPayloadLastname(payload), sdk.getPayloadDivisionId(payload));
-				logger.info("Partner Flag Update successfull for %s", updatedUser.getProfile().getEmail());
+				logger.info("Partner Flag Update successfull for user {}",updatedUser.getProfile().getEmail());
 			} catch (Exception e) {
-				logger.error("Erron updating okta for %s \n %s", sdk.getPayloadEmail(payload), e);
+				logger.error("Erron updating okta for {} \n {}", sdk.getPayloadEmail(payload), e);
 			}
 
 		});

@@ -3,46 +3,26 @@ package com.f5.salesforce.emp.connector.okta;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.f5.salesforce.emp.connector.model.EventMessage;
-import com.f5.salesforce.emp.connector.properties.EnvMap;
 import com.google.gson.Gson;
-import com.okta.sdk.authc.credentials.TokenClientCredentials;
 import com.okta.sdk.client.Client;
-import com.okta.sdk.client.Clients;
 import com.okta.sdk.resource.user.User;
 import com.okta.sdk.resource.user.UserBuilder;
 import com.okta.sdk.resource.user.UserList;
+import com.f5.salesforce.emp.connector.model.EventMessage;
 
 public class OktaSdk {
 
 	private final Logger logger = LoggerFactory.getLogger(OktaSdk.class);
-	private Client client;
-	private String payloadStr;
+	private Client client; 
 
 	private static final String PARTNER_ID = "3274"; // 3274 is Partner Profile Id in LMS
 	private static final String CUSTOMER_ID = "3273"; // 3273 is Customer Profile Id in LMS
 
-	public OktaSdk(String payloadStr) {
-		EnvMap envMap = new EnvMap();
-		String oktaURL = envMap.getEnv("OKTA_URL");
-		String apiToken = envMap.getEnv("API_TOKEN");
-		logger.info("Okta URL is {}", oktaURL);
-		logger.info("Event paylod to process:\n{}", payloadStr);
-		try {
-			this.client = Clients
-					.builder()
-					.setOrgUrl(oktaURL)
-					.setClientCredentials(new TokenClientCredentials(apiToken))
-					.build();
-			logger.info("OktaSdk constructed successfully");
-		} catch (ExceptionInInitializerError ie) {
-			logger.info(ie.toString());
-		} catch (Exception e) {
-			logger.info(e.toString());
-		}
-		this.payloadStr = payloadStr;
+	
+	public OktaSdk(Client client) {
+		this.client = client;
 	}
-
+	
 	private User getUserByEmail(String email) {
 		User user = null;
 		UserList users = client.listUsers(email, null, null, null, null);
@@ -84,11 +64,10 @@ public class OktaSdk {
 				user.getProfile().put("partnerFlag", false);
 			}
 			try {
-				user.update();
+				user = user.update();
 			} catch (Exception e) {
 				logger.info(e.toString());
 			}
-
 			return user;
 		}
 	}
